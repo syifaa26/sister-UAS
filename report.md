@@ -328,7 +328,6 @@ Video demo wajib menampilkan:
 8. Observability melalui logging dan endpoint `/stats`.
 9. Integration test menggunakan pytest.
 
-Panduan script video sudah disediakan pada `pindah/panduan.md`. Link video YouTube unlisted/public perlu dicantumkan di README atau laporan setelah proses upload.
 
 ---
 
