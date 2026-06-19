@@ -1,0 +1,46 @@
+services:
+  aggregator:
+    build: ./aggregator
+    image: uas-aggregator:latest
+    depends_on:
+      storage:
+        condition: service_healthy
+      broker:
+        condition: service_started
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://user:pass@storage:5432/db
+      - BROKER_URL=redis://broker:6379/0
+    ports:
+      - "8080:8080"
+
+  publisher:
+    build: ./publisher
+    image: uas-publisher:latest
+    depends_on:
+      - aggregator
+    environment:
+      - TARGET_URL=http://aggregator:8080/publish
+
+  broker:
+    image: redis:7-alpine
+    ports: []  # Tetap internal sesuai spesifikasi
+    volumes:
+      - broker_data:/data
+
+  storage:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_data:
+  broker_data:
