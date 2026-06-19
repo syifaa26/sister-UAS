@@ -46,3 +46,6 @@ Untuk membuktikan bahwa data aman meski container mati:
 1. Jalankan `docker compose down`.
 2. Jalankan kembali `docker compose up`.
 3. Akses [http://localhost:8080/stats](http://localhost:8080/stats) — Anda akan melihat bahwa angka statistik dan event lama masih tersimpan karena kita menggunakan *named volumes* (`pg_data`).
+
+## Link Video
+https://youtu.be/ZodzupRBMDc
